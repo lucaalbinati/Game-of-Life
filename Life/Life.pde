@@ -3,7 +3,8 @@
 Grid grid;
 
 int sizeOfGrid = 80;
-int framesPerSec = 3;
+int evolutionCounter = 0;
+int evolutionSpeed = 11;
 
 ArrayList<Cell> initialCellArray;
 
@@ -13,6 +14,8 @@ boolean paused = false;
 int buttonColor = #808587;
 Button done_button;
 Button pause_button;
+Button speed_down_button;
+Button speed_up_button;
 
 //==================================================================================
 //==================================================================================
@@ -33,17 +36,22 @@ void setup() {
 
   done_button = new Button(820, 550, 90, 50);
   pause_button = new Button(820, 490, 128, 50);
+  speed_down_button = new Button(820, 560, 175, 50);
+  speed_up_button = new Button(1017, 560, 128, 50);
 }
 
 void draw() {
   background(240, 240, 240);
   grid.display();
 
-  if (!setupPhase && !paused) {
+  if (!setupPhase && !paused && evolutionCounter == 0) {
     grid.update();
   }
 
   draw_interface();
+  
+  if (evolutionCounter >= evolutionSpeed) evolutionCounter = 0;
+  else evolutionCounter += 1;
 }
 
 void draw_interface() {
@@ -85,6 +93,14 @@ void draw_text() {
     textSize(22);
     if (paused) text("UNPAUSE", 834, 524);
     else text("PAUSE", 848, 524);
+    text("SPEED DOWN", 837, 594);
+    text("SPEED UP", 1031, 594);
+    
+    textSize(20);
+    text("Activity", 820, 690);
+    textSize(14);
+    text("Population : " + grid.getPopulation(), 820, 720);
+    text("Evolution Speed : " + convert_speed(evolutionSpeed), 820, 739);
   }
   noFill();
 }
@@ -94,6 +110,8 @@ void draw_buttons() {
     done_button.display();
   } else {
     pause_button.display();
+    speed_down_button.display();
+    speed_up_button.display();
   }
 }
 
@@ -110,12 +128,17 @@ void mouseClicked() {
     } else {
       if (done_button.containsCoord(mouseX, mouseY)) {
         setupPhase = false;
-        frameRate(framesPerSec);
       }
     }
   } else {
     if (pause_button.containsCoord(mouseX, mouseY)) {
       paused = !paused;
+    }
+    if (speed_down_button.containsCoord(mouseX, mouseY)) {
+      evolutionSpeed = min(30, evolutionSpeed + 1);
+    }
+    if (speed_up_button.containsCoord(mouseX, mouseY)) {
+      evolutionSpeed = max(1, evolutionSpeed - 1);
     }
   }
 }
@@ -126,6 +149,10 @@ void mouseClicked() {
 
 int compute_index(int x, int y) {
   return y * sizeOfGrid + x;
+}
+
+int convert_speed(int evolSpeed) {
+  return 31 - evolSpeed;
 }
 
 //==================================================================================
