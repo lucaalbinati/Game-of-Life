@@ -14,7 +14,7 @@ boolean paused = false;
 //==================================================================================
 
 void setup() {
-  size(1100, 800, P2D);
+  size(1300, 800, P2D);
   frameRate(60);
   stroke(#e0fffc);
 
@@ -35,6 +35,40 @@ void draw() {
   if (!setupPhase) {
     grid.update();
   }
+  draw_interface();
+}
+
+void draw_interface() {
+  textSize(32);
+  fill(0);
+  text("Game of Life", 820, 45);
+  textSize(20);
+  text("Description", 820, 130);
+  textSize(14);
+  text("Conway's Game of Life:\n" +
+       "At every new frame, each cells gives birth to the next generation,\n" +
+       "according to these 4 simple rules:\n" +
+       "1. Any live cell with fewer than two live neighbours dies, as if caused\n" +
+       "by underpopulation.\n" +
+       "2. Any live cell with two or three live neighbours lives on to the next\n" +
+       "generation.\n" +
+       "3. Any live cell with more than three live neighbours dies, as if by\n" +
+       "overpopulation.\n" +
+       "4. Any dead cell with exactly three live neighbours becomes a live\n" +
+       "cell, as if by reproduction.", 820, 160);
+       
+  if (setupPhase) {
+    textSize(20);
+    text("Setup Phase", 820, 450);
+    textSize(14);
+    text("Click on any cell to bring to life, or to kill it.\n" +
+         "Once you are satisified with the initial state, press\n" +
+         "any of the arrow key.", 820, 480);
+  } else {
+    textSize(20);
+    text("Controls", 820, 450);
+  }
+  noFill();
 }
 
 //==================================================================================
