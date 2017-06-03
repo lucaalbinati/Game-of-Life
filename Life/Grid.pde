@@ -86,4 +86,16 @@ class Grid {
     return newAlive;
   }
   
+  public int getPopulation() {
+    int populationCount = 0;
+    
+    for (int row = 0; row < nbBlocksHeight; ++row) {
+      for (int col = 0; col < nbBlocksWidth; ++col) {
+        if (cells.get(row * nbBlocksWidth + col).getAlive()) populationCount += 1;
+      }
+    }
+    
+    return populationCount;
+  }
+  
 }
