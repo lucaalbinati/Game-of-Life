@@ -17,10 +17,19 @@ class Grid {
     }
   }
   
+  public void bringLife(int xCoord, int yCoord) {
+    if ((0 <= xCoord && xCoord < nbBlocksWidth) && (0 <= yCoord && yCoord < nbBlocksHeight)) {
+      int index = yCoord * nbBlocksWidth + xCoord;
+      cells.set(index, new Cell(xCoord, yCoord, true));
+    }
+  }
+  
   public void bringLifeOrDeath(int xCoord, int yCoord) {
-    int index = yCoord * nbBlocksWidth + xCoord;
-    Cell c = cells.get(index);
-    cells.set(index, new Cell(xCoord, yCoord, !c.getAlive()));
+    if ((0 <= xCoord && xCoord < nbBlocksWidth) && (0 <= yCoord && yCoord < nbBlocksHeight)) {
+      int index = yCoord * nbBlocksWidth + xCoord;
+      Cell c = cells.get(index);
+      cells.set(index, new Cell(xCoord, yCoord, !c.getAlive()));
+    }
   }
   
   public void update() {

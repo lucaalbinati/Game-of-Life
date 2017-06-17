@@ -143,6 +143,16 @@ void mouseClicked() {
   }
 }
 
+void mouseDragged() {
+  if (setupPhase) {
+    if (mouseX < 800) {
+      int xCoord = (int) map(mouseX, 0, height, 0, sizeOfGrid);
+      int yCoord = (int) map(mouseY, 0, height, 0, sizeOfGrid);
+      grid.bringLife(xCoord, yCoord);
+    }
+  }
+}
+
 //==================================================================================
 //==================================================================================
 //==================================================================================
