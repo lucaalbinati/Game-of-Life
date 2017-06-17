@@ -3,10 +3,12 @@ class Grid {
   private int nbBlocksWidth;
   private int nbBlocksHeight;
   private ArrayList<Cell> cells;
+  private ArrayList<Cell> saved_cells;
   
   public Grid(int nbBlocksWidth, int nbBlocksHeight, ArrayList<Cell> initialCells) {
     this.nbBlocksWidth = nbBlocksWidth;
     this.nbBlocksHeight = nbBlocksHeight;
+    saved_cells = new ArrayList();
     
     this.cells = new ArrayList();
     for (int row = 0; row < nbBlocksHeight; ++row) {
@@ -64,6 +66,28 @@ class Grid {
         rect(cell.getXCoord() * cellWidth, cell.getYCoord() * cellHeight, cellWidth, cellHeight);
         
         noFill();
+      }
+    }
+  }
+  
+  public void save_current_state() {
+    saved_cells.clear();
+    
+    for (int row = 0; row < nbBlocksHeight; ++row) {
+      for (int col = 0; col < nbBlocksWidth; ++col) {
+        Cell cell = cells.get(row * nbBlocksWidth + col);
+        saved_cells.add(new Cell(cell.getXCoord(), cell.getYCoord(), cell.getAlive()));
+      }
+    }
+  }
+  
+  public void restore_saved_state() {
+    cells.clear();
+    
+    for (int row = 0; row < nbBlocksHeight; ++row) {
+      for (int col = 0; col < nbBlocksWidth; ++col) {
+        Cell cell = saved_cells.get(row * nbBlocksWidth + col);
+        cells.add(new Cell(cell.getXCoord(), cell.getYCoord(), cell.getAlive()));
       }
     }
   }

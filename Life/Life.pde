@@ -16,6 +16,7 @@ Button done_button;
 Button pause_button;
 Button speed_down_button;
 Button speed_up_button;
+Button rewind_button;
 
 //==================================================================================
 //==================================================================================
@@ -38,6 +39,7 @@ void setup() {
   pause_button = new Button(820, 490, 128, 50);
   speed_down_button = new Button(820, 560, 175, 50);
   speed_up_button = new Button(1017, 560, 128, 50);
+  rewind_button = new Button(1025, 490, 120, 50);
 }
 
 void draw() {
@@ -95,6 +97,7 @@ void draw_text() {
     else text("PAUSE", 848, 524);
     text("SPEED DOWN", 837, 594);
     text("SPEED UP", 1031, 594);
+    text("REWIND", 1043, 524);
     
     textSize(20);
     text("Activity", 820, 690);
@@ -112,6 +115,7 @@ void draw_buttons() {
     pause_button.display();
     speed_down_button.display();
     speed_up_button.display();
+    rewind_button.display();
   }
 }
 
@@ -128,6 +132,7 @@ void mouseClicked() {
     } else {
       if (done_button.containsCoord(mouseX, mouseY)) {
         setupPhase = false;
+        grid.save_current_state();
       }
     }
   } else {
@@ -139,6 +144,10 @@ void mouseClicked() {
     }
     if (speed_up_button.containsCoord(mouseX, mouseY)) {
       evolutionSpeed = max(1, evolutionSpeed - 1);
+    }
+    if (rewind_button.containsCoord(mouseX, mouseY)) {
+      grid.restore_saved_state();
+      paused = true;
     }
   }
 }
